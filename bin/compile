@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir> <env-dir>
+
+### Configure environment
+
+set -o errexit    # always exit on error
+set -o pipefail   # dont ignore exit codes when piping output
+unset GIT_DIR     # Avoid GIT_DIR leak from previous build steps
+
+### Configure directories
+
+mkdir -p $1 $2 $3 # Ensure dirs are present
+
+build_dir=$(cd $1 && pwd)
+cache_dir=$(cd $2 && pwd)
+env_path=$(cd $3 && pwd)
+
+# tar everything up
+tar cf app.tar.gz .
+
+mkdir -p $cache_dir/out
+rm -f $cache_dir/out/*
+cp app.tar.gz $cache_dir/out/app-HEAD.tar.gz
+
+# so it can be deleted outside of container
+chmod +w $cache_dir/out/app-HEAD.tar.gz
