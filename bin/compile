@@ -15,12 +15,13 @@ build_dir=$(cd $1 && pwd)
 cache_dir=$(cd $2 && pwd)
 env_path=$(cd $3 && pwd)
 
-# tar everything up
-tar cf app.tar.gz .
+cd $build_dir/$app_relative_path
 
 mkdir -p $cache_dir/out
 rm -f $cache_dir/out/*
-cp app.tar.gz $cache_dir/out/app-HEAD.tar.gz
+
+# tar everything up
+tar zcf $cache_dir/out/app-HEAD.tar.gz .
 
 # so it can be deleted outside of container
 chmod +w $cache_dir/out/app-HEAD.tar.gz
