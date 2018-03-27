@@ -15,7 +15,7 @@ build_dir=$(cd $1 && pwd)
 cache_dir=$(cd $2 && pwd)
 env_path=$(cd $3 && pwd)
 
-cd $build_dir/$app_relative_path
+cd $build_dir
 
 mkdir -p $cache_dir/out
 rm -f $cache_dir/out/*
